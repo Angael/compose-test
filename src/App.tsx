@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { HelloPath } from "server";
+import { HelloPath } from "server/types";
 
 function App() {
   const { isPending, error, data } = useQuery({
     queryKey: ["repoData"],
     queryFn: () =>
-      fetch("http://localhost:5000/").then((res) => res.json() as HelloPath)
+      fetch("http://localhost:5000/").then(
+        (res) => res.json() as Promise<HelloPath>
+      )
   });
 
   return (
