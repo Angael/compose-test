@@ -1,17 +1,18 @@
 # Build stage
-FROM oven/bun:1 AS builder
+FROM oven/bun:latest AS builder
 
 WORKDIR /app
 
-# Copy root package.json and install dependencies
+# Copy root and workspace package files
 COPY package.json ./
 COPY apps/web/package.json ./apps/web/
 COPY apps/server/package.json ./apps/server/
-COPY apps/server/src ./apps/server/src
+COPY apps/server/src/types.ts ./apps/server/src/types.ts
 
+# Install all dependencies (including devDependencies)
 RUN bun install
 
-# Copy web app source
+# Copy web app source files
 COPY apps/web ./apps/web
 
 # Build the app

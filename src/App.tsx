@@ -1,18 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { HelloPath } from "server/types";
 
 function App() {
-  const { isPending, error, data } = useQuery({
+  const { isPending, error, data, refetch } = useQuery({
     queryKey: ["repoData"],
     queryFn: () =>
-      fetch("http://localhost:5000/").then(
-        (res) => res.json() as Promise<HelloPath>
-      )
+      fetch("http://localhost:5000/records").then((res) => res.json())
   });
+
+  const append = async () => {
+    await fetch("http://localhost:5000/records", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name: "New Record" })
+    });
+    refetch();
+  };
 
   return (
     <div>
-      data:
+      <button onClick={append}>Append</button>
       <pre>{JSON.stringify({ isPending, error, data }, null, 2)}</pre>
     </div>
   );
