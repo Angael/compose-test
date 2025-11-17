@@ -40,9 +40,12 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:5000}
     container_name: compose-test-web
-    environment:
-      VITE_API_URL: ${VITE_API_URL}
+    # This was pointless, as the image serves static files, so the env var was never used.
+    # environment:
+    #   VITE_API_URL: ${VITE_API_URL}
     ports:
       - 80
     depends_on:

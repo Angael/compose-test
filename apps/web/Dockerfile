@@ -3,6 +3,8 @@ FROM oven/bun:latest AS builder
 
 WORKDIR /app
 
+ARG VITE_API_URL=http://localhost:5000
+
 # Copy root and workspace package files
 COPY package.json ./
 COPY apps/web/package.json ./apps/web/
@@ -17,6 +19,7 @@ COPY apps/web ./apps/web
 
 # Build the app
 WORKDIR /app/apps/web
+ENV VITE_API_URL=${VITE_API_URL}
 RUN bun run build
 
 # Production stage
