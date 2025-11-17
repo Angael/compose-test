@@ -1,14 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function App() {
   const { isPending, error, data, refetch } = useQuery({
     queryKey: ["repoData"],
-    queryFn: () =>
-      fetch("http://localhost:5000/records").then((res) => res.json())
+    queryFn: () => fetch(`${apiUrl}/records`).then((res) => res.json())
   });
 
   const append = async () => {
-    await fetch("http://localhost:5000/records", {
+    await fetch(`${apiUrl}/records`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
